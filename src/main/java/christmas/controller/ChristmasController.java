@@ -1,6 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.Day;
+import christmas.domain.MenuOrder;
 import christmas.view.Input;
 import christmas.view.Output;
 
@@ -10,13 +11,24 @@ public class ChristmasController {
     public void run() {
         output.showEventPlanner();
         Day day = reserveDay();
+        output.showMenu();
+        MenuOrder menuOrder = orderMenu();
+    }
+
+    private MenuOrder orderMenu() {
+        try {
+            return new MenuOrder(input.read());
+        } catch (IllegalArgumentException e){
+            output.showMenuError();
+            return orderMenu();
+        }
     }
 
     private Day reserveDay() {
         try{
             return new Day(toInt(input.read()));
         } catch (IllegalArgumentException e){
-            output.showError();
+            output.showDayError();
             return reserveDay();
         }
     }
