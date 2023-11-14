@@ -15,17 +15,16 @@ public class ChristmasController {
         output.Menu();
         MenuOrder menu = orderMenu();
         output.EventPreview(day);
-        result(menu);
+        result(menu, day);
     }
 
-    private void result(MenuOrder menu) {
+    private void result(MenuOrder menu, Day day) {
         output.MenuOrder(menu);
         output.BeforeDiscountPrice(menu);
-        /*
         output.Gift(menu);
+        /*
         output.BenefitRecord(menu);
         output.TotalBenefit(menu);
-        output.AfterDiscountPrice(menu);
         output.AfterDiscountPrice(menu);
         output.Badge(menu);
          */

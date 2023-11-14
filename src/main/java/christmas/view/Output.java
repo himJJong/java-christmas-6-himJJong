@@ -12,6 +12,10 @@ public class Output {
     private static final String MENU = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
     private static final String INVALID_MENU_ORDER = " 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final String EVENT_PREVIEW = "%d월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String NONE = "없음";
+    private static final int GIFT_LIMIT = 120000;
+    private static final String GIFT = "샴페인";
+    private static final String ONE = "1";
     private static final String PER = "개";
     private static final String UNIT = "원";
     private static final String COMPLETED_MENU_ORDER = "<주문 메뉴>";
@@ -50,6 +54,16 @@ public class Output {
 
     public void EventPreview(Day day) {
         System.out.printf(EVENT_PREVIEW ,MONTH, day.getDate());
+        System.out.print(LINE);
+    }
+
+    public void Gift(MenuOrder menu) {
+        if(menu.getTotalPrice() >= GIFT_LIMIT ){
+            System.out.println(GIFT + ONE + PER);
+        }
+        else if(menu.getTotalPrice() < GIFT_LIMIT){
+            System.out.println(NONE);
+        }
         System.out.print(LINE);
     }
 }
