@@ -11,63 +11,63 @@ public class MenuOrderTest {
     @DisplayName("메뉴 주문의 형식이 잘못되었을 때 예외 테스트")
     public void testInvalidFormat() {
         String invalidFormat = "InvalidFormat";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(invalidFormat));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(invalidFormat,0,0));
     }
 
     @Test
     @DisplayName("같은 메뉴 중복일 때 예외 테스트")
     public void testDuplicateMenu() {
         String duplicateMenu = "양송이수프-2,양송이수프-1";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(duplicateMenu));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(duplicateMenu,0,0));
     }
 
     @Test
     @DisplayName("주문 예외 테스트")
     void testWrongOrderMenu() {
         String wrongOrderMenu = "3,제로콜라-a";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(wrongOrderMenu));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(wrongOrderMenu,0,0));
     }
 
     @Test
     @DisplayName("메뉴판에 없는 메뉴 주문 했을 때 예외 테스트")
     public void testInvalidMenu() {
         String invalidMenu = "InvalidMenu-1";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(invalidMenu));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(invalidMenu,0,0));
     }
 
     @Test
     @DisplayName("각 메뉴 수량 개수가 0개일 때 예외 테스트")
     public void testZeroQuantity() {
         String zeroQuantity = "양송이수프-0,초코케이크-0";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(zeroQuantity));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(zeroQuantity,0,0));
     }
 
     @Test
     @DisplayName("총 수량이 20개를 넘었을 때 예외 테스트")
     public void testTotalOrderLimitExceeded() {
         String orderExceedLimit = "양송이수프-1,바비큐립-2,초코케이크-3,제로콜라-15";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(orderExceedLimit));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(orderExceedLimit,0,0));
     }
 
     @Test
     @DisplayName("주문을 1개만 했을 때 통과 테스트")
     public void testOneOrder() {
         String orderOneLimit = "초코케이크-1";
-        assertDoesNotThrow(() -> new MenuOrder(orderOneLimit));
+        assertDoesNotThrow(() -> new MenuOrder(orderOneLimit,0,0));
     }
 
     @Test
     @DisplayName("주문시 공백이 있을 때 예외 테스트")
     public void testBlankOrder() {
         String orderOneLimit = "초코케이크-1, 아이스크림-5";
-        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(orderOneLimit));
+        assertThrows(IllegalArgumentException.class, () -> new MenuOrder(orderOneLimit,0,0));
     }
 
     @Test
     @DisplayName("주문을 20개 했을 때 통과 테스트")
     public void testTwentyOrders() {
         String orderTwentyLimit = "아이스크림-20";
-        MenuOrder menuOrder = new MenuOrder(orderTwentyLimit);
+        MenuOrder menuOrder = new MenuOrder(orderTwentyLimit,0,0);
         assertDoesNotThrow(menuOrder::checkTotalOrderLimit);
     }
 
@@ -75,7 +75,7 @@ public class MenuOrderTest {
     @DisplayName("주문을 15개 했을 때 통과 테스트")
     public void testFifteenOrders() {
         String orderFifteenLimit = "아이스크림-5,초코케이크-10,제로콜라-4";
-        MenuOrder menuOrder = new MenuOrder(orderFifteenLimit);
+        MenuOrder menuOrder = new MenuOrder(orderFifteenLimit,0,0);
         assertDoesNotThrow(menuOrder::checkTotalOrderLimit);
     }
 
@@ -83,7 +83,7 @@ public class MenuOrderTest {
     @DisplayName("주문시 성공적인 계산 통과 테스트")
     public void testCalculatedPrice() {
         String orderMenu = "아이스크림-5,초코케이크-10,제로콜라-4";
-        MenuOrder menuOrder = new MenuOrder(orderMenu);
+        MenuOrder menuOrder = new MenuOrder(orderMenu,0,0);
 
         int totalPrice = 187000;
 

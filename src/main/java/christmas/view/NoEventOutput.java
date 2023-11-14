@@ -15,7 +15,7 @@ public class NoEventOutput {
     }
 
     private void noneEventBadge() {
-        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH));
+        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + "\n");
         output.showNone();
     }
 
@@ -34,12 +34,12 @@ public class NoEventOutput {
     private void noneDiscount() {
         System.out.println(output.DISCOUNT_RECORD);
         output.showNone();
-        System.out.println(output.LINE);
+        System.out.print(output.LINE);
     }
 
     public void noneGift() {
         System.out.println(output.GIFT_MENU);
         output.showNone();
-        System.out.println(output.LINE);
+        System.out.print(output.LINE);
     }
 }

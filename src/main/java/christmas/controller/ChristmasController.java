@@ -11,7 +11,6 @@ public class ChristmasController {
     private static final int APPLY_EVENT_LIMIT = 10000;
     private final Input input = new Input();
     private final Output output = new Output();
-    private final YesEventOutput yesEventOutput = new YesEventOutput();
     private final NoEventOutput noEventOutput = new NoEventOutput();
     private final Discount discount = new Discount();
 
@@ -45,7 +44,7 @@ public class ChristmasController {
 
     private MenuOrder orderMenu() {
         try {
-            return new MenuOrder(input.read());
+            return new MenuOrder(input.read(), 0, 0);
         } catch (IllegalArgumentException e) {
             output.showMenuError();
             return orderMenu();

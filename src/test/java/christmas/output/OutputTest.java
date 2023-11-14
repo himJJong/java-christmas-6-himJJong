@@ -18,7 +18,7 @@ class OutputTest {
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
 
-        MenuOrder menuOrder = new MenuOrder("아이스크림-2,초코케이크-2");
+        MenuOrder menuOrder = new MenuOrder("아이스크림-2,초코케이크-2",0,0);
         menuOrder.getOrderedItems().put("아이스크림", 2);
         menuOrder.getOrderedItems().put("초코케이크", 2);
 

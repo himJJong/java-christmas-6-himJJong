@@ -5,6 +5,7 @@ import christmas.view.Output;
 public class Discount {
     private final int ZERO = 0;
     private final int ONE = 1;
+    private final int TWO = 2;
     private final int CHRISTMAS_DATE = 25;
     private final int CHRISTMAS_DISCOUNT_UNIT = 100;
     private final int SPECIAL_DISCOUNT_UNIT = 1000;
@@ -13,6 +14,7 @@ public class Discount {
     private final int FIVE_THOUSAND = 5000;
     private final int TEN_THOUSAND = 10000;
     private final int TWENTY_THOUSAND = 20000;
+    private final int THIS_YEAR = 2023;
     private final String STAR = "별";
     private final String TREE = "트리";
     private final String SANTA = "산타";
@@ -22,6 +24,10 @@ public class Discount {
         int discountPrice = 0;
         int date = day.getDate();
 
+        if(menu.getTotalPrice() >= output.GIFT_LIMIT){
+            output.showGiftMenu();
+        }
+        output.showEventRecord();
         discountPrice += christmasDiscount(date); // 날짜  체크 1~25 (완)
         discountPrice += dailyDiscount(menu, date);     // 평일 주말 체크
         discountPrice += specialDiscount(date);   // 별체크 (완)
@@ -31,7 +37,7 @@ public class Discount {
     }
 
     private void eventBadge() {
-        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH));
+        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + "\n");
 
         if(totalDiscountPrice >= FIVE_THOUSAND && totalDiscountPrice < TEN_THOUSAND) {
             System.out.println(STAR);
@@ -59,9 +65,8 @@ public class Discount {
         else if(menu.getTotalPrice() < output.GIFT_LIMIT){
             totalDiscountPrice += discountPrice;
         }
-        System.out.println(output.LINE);
         output.showTotalDiscountPrice();
-        output.showTotalDiscountPriceWon(discountPrice);
+        output.showTotalDiscountPriceWon(totalDiscountPrice);
     }
 
     private int specialDiscount(int date) {
@@ -74,8 +79,12 @@ public class Discount {
     }
 
     private int dailyDiscount(MenuOrder menu, int date) {
-
-        return 0;
+        if(date % SEVEN == ONE || date % SEVEN == TWO){
+            output.showWeekendDiscount(menu.getDessertCount() * THIS_YEAR);
+            return menu.getDessertCount() * THIS_YEAR;
+        }
+        output.showWeekdayDiscount(menu.getMainCount() * THIS_YEAR);
+        return menu.getMainCount() * THIS_YEAR;
     }
 
     private int christmasDiscount(int date) {

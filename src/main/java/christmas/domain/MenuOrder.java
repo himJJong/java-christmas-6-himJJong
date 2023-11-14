@@ -7,14 +7,27 @@ import java.util.Map;
 public class MenuOrder {
     private final Map<String, Integer> orderedItems;
     private int totalPrice = 0;
+    private int dessertCount = 0;
+    private int mainCount = 0;
 
     public int getTotalPrice() {
         return totalPrice;
     }
 
-    public MenuOrder(String foods) {
+    public int getDessertCount() {
+        return dessertCount;
+    }
+
+    public int getMainCount() {
+        return mainCount;
+    }
+
+    public MenuOrder(String foods, int dessertCount, int mainCount) {
         this.orderedItems = new HashMap<>();
+        this.dessertCount = dessertCount;
+        this.mainCount = mainCount;
         this.totalPrice = validate(foods);
+
     }
 
     private int validate(String foods) {
@@ -190,6 +203,7 @@ public class MenuOrder {
     private boolean isValidMainCourse(String menuName) {
         try {
             MenuBoard.MainCourse.valueOf(menuName);
+            mainCount++;
             return true;
         } catch (IllegalArgumentException ignored) {
             return false;
@@ -199,6 +213,7 @@ public class MenuOrder {
     private boolean isValidDessert(String menuName) {
         try {
             MenuBoard.Dessert.valueOf(menuName);
+            dessertCount++;
             return true;
         } catch (IllegalArgumentException ignored) {
             return false;
