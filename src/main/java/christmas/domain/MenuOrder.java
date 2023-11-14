@@ -22,8 +22,18 @@ public class MenuOrder {
         checkFormat(foods);
         checkNoMenuInFoods(foods);
         checkTotalOrderLimit();
+        checkIfOnlyBeverageOrdered();
 
         return calculateTotalPrice();
+    }
+
+    private void checkIfOnlyBeverageOrdered() {
+        boolean onlyBeverageOrdered = orderedItems.keySet().stream()
+                .allMatch(this::isValidBeverage);
+
+        if (onlyBeverageOrdered) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private int calculateTotalPrice() {
