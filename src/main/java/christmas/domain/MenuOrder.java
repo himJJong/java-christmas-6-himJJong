@@ -211,7 +211,7 @@ public class MenuOrder {
                 isValidBeverage(menuName);
 
         if (!isValidMenu) {
-            throw new IllegalArgumentException("Invalid menu");
+            throw new IllegalArgumentException();
         }
     }
 
