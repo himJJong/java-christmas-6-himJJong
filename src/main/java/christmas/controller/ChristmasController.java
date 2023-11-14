@@ -4,11 +4,15 @@ import christmas.domain.Day;
 import christmas.domain.Discount;
 import christmas.domain.MenuOrder;
 import christmas.view.Input;
+import christmas.view.NoEventOutput;
 import christmas.view.Output;
 
 public class ChristmasController {
+    private static final int APPLY_EVENT_LIMIT = 10000;
     private final Input input = new Input();
     private final Output output = new Output();
+    private final YesEventOutput yesEventOutput = new YesEventOutput();
+    private final NoEventOutput noEventOutput = new NoEventOutput();
     private final Discount discount = new Discount();
 
     public void run() {
@@ -21,16 +25,23 @@ public class ChristmasController {
     }
 
     private void result(MenuOrder menu, Day day) {
+        int beforeDiscountPrice = menu.getTotalPrice();
+
         output.showMenuOrder(menu);
         output.showBeforeDiscountPrice(menu);
-        output.showGift(menu);
-        discount.check(menu, day);
-
-        /*
-
-        output.Badge(menu);
-        */
+        applyEvent(beforeDiscountPrice, menu, day);
     }
+
+    private void applyEvent(int beforeDiscountPrice, MenuOrder menu, Day day) {
+        if(beforeDiscountPrice >= APPLY_EVENT_LIMIT){
+            discount.check(menu, day);
+        }
+
+        if(beforeDiscountPrice < APPLY_EVENT_LIMIT){
+            noEventOutput.check(menu);
+        }
+    }
+
 
     private MenuOrder orderMenu() {
         try {
