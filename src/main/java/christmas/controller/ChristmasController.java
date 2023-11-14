@@ -9,17 +9,30 @@ public class ChristmasController {
     private final Input input = new Input();
     private final Output output = new Output();
     public void run() {
-        output.showEventPlanner();
+        output.EventPlanner();
         Day day = reserveDay();
-        output.showMenu();
-        MenuOrder menuOrder = orderMenu();
+        output.Menu();
+        MenuOrder menu = orderMenu();
+        result(menu);
+    }
+
+    private void result(MenuOrder menu) {
+        output.Order(menu);
+        /*
+        output.BeforeDiscountPrice(menu);
+        output.Gift(menu);
+        output.BenefitRecord(menu);
+        output.TotalBenefit(menu);
+        output.AfterDiscountPrice(menu);
+        output.Badge(menu);
+         */
     }
 
     private MenuOrder orderMenu() {
         try {
             return new MenuOrder(input.read());
         } catch (IllegalArgumentException e){
-            output.showMenuError();
+            output.MenuError();
             return orderMenu();
         }
     }
@@ -28,7 +41,7 @@ public class ChristmasController {
         try{
             return new Day(toInt(input.read()));
         } catch (IllegalArgumentException e){
-            output.showDayError();
+            output.DayError();
             return reserveDay();
         }
     }

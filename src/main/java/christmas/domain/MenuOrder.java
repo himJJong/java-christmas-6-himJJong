@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MenuOrder {
-    private final String foods;
     private final Map<String, Integer> orderedItems;
 
     public MenuOrder(String foods) {
         this.orderedItems = new HashMap<>();
         validate(foods);
-        this.foods = foods;
     }
 
     private void validate(String foods) {
@@ -19,6 +17,10 @@ public class MenuOrder {
         checkFormat(foods);
         checkNoMenuInFoods(foods);
         checkTotalOrderLimit();
+    }
+
+    public Map<String, Integer> getOrderedItems() {
+        return orderedItems;
     }
 
     private void checkBlankOrder(String foods) {
