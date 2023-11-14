@@ -32,11 +32,11 @@ public class ChristmasController {
     }
 
     private void applyEvent(int beforeDiscountPrice, MenuOrder menu, Day day) {
-        if(beforeDiscountPrice >= APPLY_EVENT_LIMIT){
+        if (beforeDiscountPrice >= APPLY_EVENT_LIMIT) {
             discount.check(menu, day);
         }
 
-        if(beforeDiscountPrice < APPLY_EVENT_LIMIT){
+        if (beforeDiscountPrice < APPLY_EVENT_LIMIT) {
             noEventOutput.check(menu);
         }
     }

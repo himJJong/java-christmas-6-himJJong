@@ -60,7 +60,7 @@ public class Discount {
             totalDiscountPrice += discountPrice + output.GIFT_PRICE;
         }
         else if(menu.getTotalPrice() < output.GIFT_LIMIT && discountPrice == ZERO){
-            output.showNone();
+            output.showNoExist();
         }
         else if(menu.getTotalPrice() < output.GIFT_LIMIT){
             totalDiscountPrice += discountPrice;

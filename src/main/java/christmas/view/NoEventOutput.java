@@ -3,7 +3,6 @@ package christmas.view;
 import christmas.domain.MenuOrder;
 
 public class NoEventOutput {
-    private static final int ZERO = 0;
     private final Output output = new Output();
 
     public void check(MenuOrder menu) {
@@ -15,31 +14,29 @@ public class NoEventOutput {
     }
 
     private void noneEventBadge() {
-        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + "\n");
-        output.showNone();
+        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + output.SKIP_LINE);
+        output.showNoExist();
     }
 
     private void totalPrice(MenuOrder menu) {
-        System.out.println(output.AFTER_DISCOUNT_PRICE);
-        System.out.print(menu.getTotalPrice() + output.WON);
-        System.out.println(output.LINE);
+        System.out.println(output.AFTER_DISCOUNT_PRICE_SENTENCE);
+        System.out.println(menu.getTotalPrice() + output.WON + output.SKIP_LINE);
     }
 
     private void noneDiscountPrice() {
         output.showTotalDiscountPrice();
-        System.out.print(ZERO + output.WON);
-        System.out.println(output.LINE);
+        System.out.println(output.ZERO + output.WON + output.SKIP_LINE);
     }
 
     private void noneDiscount() {
-        System.out.println(output.DISCOUNT_RECORD);
-        output.showNone();
-        System.out.print(output.LINE);
+        System.out.println(output.DISCOUNT_RECORD_SENTENCE);
+        output.showNoExist();
+        System.out.print(output.SKIP_LINE);
     }
 
     public void noneGift() {
-        System.out.println(output.GIFT_MENU);
-        output.showNone();
-        System.out.print(output.LINE);
+        System.out.println(output.GIFT_MENU_SENTENCE);
+        output.showNoExist();
+        System.out.print(output.SKIP_LINE);
     }
 }
