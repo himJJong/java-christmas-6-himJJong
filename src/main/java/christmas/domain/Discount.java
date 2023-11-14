@@ -8,45 +8,41 @@ public class Discount {
     private final int TWO = 2;
     private final int CHRISTMAS_DATE = 25;
     private final int CHRISTMAS_DISCOUNT_UNIT = 100;
-    private final int SPECIAL_DISCOUNT_UNIT = 1000;
+    private final int THOUSAND = 1000;
     private final int SEVEN = 7;
     private final int SPECIAL_DATE = 3;
     private final int FIVE_THOUSAND = 5000;
     private final int TEN_THOUSAND = 10000;
     private final int TWENTY_THOUSAND = 20000;
     private final int THIS_YEAR = 2023;
-    private final String STAR = "별";
-    private final String TREE = "트리";
-    private final String SANTA = "산타";
     private final Output output = new Output();
     private int totalDiscountPrice = 0;
+
     public void check(MenuOrder menu, Day day) {
         int discountPrice = 0;
         int date = day.getDate();
 
-        if(menu.getTotalPrice() >= output.GIFT_LIMIT){
+        if (menu.getTotalPrice() >= output.GIFT_LIMIT) {
             output.showGiftMenu();
         }
         output.showEventRecord();
-        discountPrice += christmasDiscount(date); // 날짜  체크 1~25 (완)
-        discountPrice += dailyDiscount(menu, date);     // 평일 주말 체크
-        discountPrice += specialDiscount(date);   // 별체크 (완)
-        giftDiscount(menu, discountPrice);         // 증정 이벤트 (완), 총혜택 금액 (완)
-        afterDiscountPrice(menu, discountPrice);    // (완)
-        eventBadge();                                //(완)
+        discountPrice += christmasDiscount(date);
+        discountPrice += dailyDiscount(menu, date);
+        discountPrice += specialDiscount(date);
+        giftDiscount(menu, discountPrice);
+        afterDiscountPrice(menu, discountPrice);
+        eventBadge();
     }
 
     private void eventBadge() {
         System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + "\n");
 
-        if(totalDiscountPrice >= FIVE_THOUSAND && totalDiscountPrice < TEN_THOUSAND) {
-            System.out.println(STAR);
-        }
-        else if(totalDiscountPrice >= TEN_THOUSAND && totalDiscountPrice < TWENTY_THOUSAND) {
-            System.out.println(TREE);
-        }
-        else if(totalDiscountPrice >= TWENTY_THOUSAND) {
-            System.out.println(SANTA);
+        if (totalDiscountPrice >= FIVE_THOUSAND && totalDiscountPrice < TEN_THOUSAND) {
+            output.showBadgeStar();
+        } else if (totalDiscountPrice >= TEN_THOUSAND && totalDiscountPrice < TWENTY_THOUSAND) {
+            output.showBadgeTree();
+        } else if (totalDiscountPrice >= TWENTY_THOUSAND) {
+            output.showBadgeSanta();
         }
     }
 
@@ -55,14 +51,12 @@ public class Discount {
     }
 
     private void giftDiscount(MenuOrder menu, int discountPrice) {
-        if(menu.getTotalPrice() >= output.GIFT_LIMIT){
+        if (menu.getTotalPrice() >= output.GIFT_LIMIT) {
             output.showGiftEvent();
             totalDiscountPrice += discountPrice + output.GIFT_PRICE;
-        }
-        else if(menu.getTotalPrice() < output.GIFT_LIMIT && discountPrice == ZERO){
+        } else if (menu.getTotalPrice() < output.GIFT_LIMIT && discountPrice == ZERO) {
             output.showNoExist();
-        }
-        else if(menu.getTotalPrice() < output.GIFT_LIMIT){
+        } else if (menu.getTotalPrice() < output.GIFT_LIMIT) {
             totalDiscountPrice += discountPrice;
         }
         output.showTotalDiscountPrice();
@@ -70,20 +64,21 @@ public class Discount {
     }
 
     private int specialDiscount(int date) {
-        if(date % SEVEN == SPECIAL_DATE || date == CHRISTMAS_DATE){
-            output.showSpecialDiscount(SPECIAL_DISCOUNT_UNIT);
-            return SPECIAL_DISCOUNT_UNIT;
+        if (date % SEVEN == SPECIAL_DATE || date == CHRISTMAS_DATE) {
+            output.showSpecialDiscount(THOUSAND);
+            return THOUSAND;
         }
 
         return ZERO;
     }
 
     private int dailyDiscount(MenuOrder menu, int date) {
-        if(date % SEVEN == ONE || date % SEVEN == TWO){
+        if (date % SEVEN == ONE || date % SEVEN == TWO) {
             output.showWeekendDiscount(menu.getDessertCount() * THIS_YEAR);
             return menu.getDessertCount() * THIS_YEAR;
         }
         output.showWeekdayDiscount(menu.getMainCount() * THIS_YEAR);
+
         return menu.getMainCount() * THIS_YEAR;
     }
 
@@ -100,6 +95,6 @@ public class Discount {
     }
 
     private int calculatedChristmasDiscount(int date) {
-        return ((date - ONE) * CHRISTMAS_DISCOUNT_UNIT) + 1000;
+        return ((date - ONE) * CHRISTMAS_DISCOUNT_UNIT) + THOUSAND;
     }
 }

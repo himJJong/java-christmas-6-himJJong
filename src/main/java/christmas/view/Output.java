@@ -24,6 +24,9 @@ public class Output {
     private static final String INVALID_DAY_FORMAT = " 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
     private static final String INVALID_MENU_FORMAT = " 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final String NONE = "없음";
+    private static final String STAR = "별";
+    private static final String TREE = "트리";
+    private static final String SANTA = "산타";
     private static final String GIFT = "샴페인";
     public static final int GIFT_LIMIT = 120000;
     public static final int GIFT_PRICE = 25000;
@@ -122,5 +125,17 @@ public class Output {
 
     public void showEventRecord() {
         System.out.println(DISCOUNT_RECORD_SENTENCE);
+    }
+
+    public void showBadgeSanta() {
+        System.out.println(SANTA);
+    }
+
+    public void showBadgeStar() {
+        System.out.println(STAR);
+    }
+
+    public void showBadgeTree() {
+        System.out.println(TREE);
     }
 }

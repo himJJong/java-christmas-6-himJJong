@@ -41,7 +41,6 @@ public class ChristmasController {
         }
     }
 
-
     private MenuOrder orderMenu() {
         try {
             return new MenuOrder(input.read(), 0, 0);

@@ -10,24 +10,11 @@ public class MenuOrder {
     private int dessertCount = 0;
     private int mainCount = 0;
 
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public int getDessertCount() {
-        return dessertCount;
-    }
-
-    public int getMainCount() {
-        return mainCount;
-    }
-
     public MenuOrder(String foods, int dessertCount, int mainCount) {
         this.orderedItems = new HashMap<>();
         this.dessertCount = dessertCount;
         this.mainCount = mainCount;
         this.totalPrice = validate(foods);
-
     }
 
     private int validate(String foods) {
@@ -38,6 +25,48 @@ public class MenuOrder {
         checkIfOnlyBeverageOrdered();
 
         return calculateTotalPrice();
+    }
+
+    private void checkBlankOrder(String foods) {
+        if (foods.contains(" ")) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void checkFormat(String foods) {
+        String[] menuItems = foods.split(",");
+
+        boolean isValidOrder = Arrays.stream(menuItems)
+                .allMatch(item -> {
+                    String[] parts = item.split("-");
+                    if (parts.length == 2) {
+                        String menuName = parts[0].trim();
+                        String quantity = parts[1].trim();
+                        return menuName.matches("[\\w가-힣]+") && quantity.matches("[1-9]|1[0-9]|20");
+                    }
+                    return false;
+                });
+
+        checkResultFormat(isValidOrder);
+    }
+
+    private void checkNoMenuInFoods(String foods) {
+        String[] menuItems = foods.split(",");
+        if (menuItems.length == 1) {
+            orderMenus(menuItems[0]);
+        } else {
+            Arrays.stream(menuItems)
+                    .map(String::trim)
+                    .forEach(this::orderMenus);
+        }
+    }
+
+    public void checkTotalOrderLimit() {
+        int totalQuantity = orderedItems.values().stream().mapToInt(Integer::intValue).sum();
+
+        if (totalQuantity > 20) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void checkIfOnlyBeverageOrdered() {
@@ -52,10 +81,10 @@ public class MenuOrder {
     private int calculateTotalPrice() {
         int calculatedTotalPrice = 0;
 
-        for (Map.Entry<String, Integer> entry : orderedItems.entrySet()) {
-            String menuName = entry.getKey();
+        for (Map.Entry<String, Integer> menu : orderedItems.entrySet()) {
+            String menuName = menu.getKey();
 
-            int quantity = entry.getValue();
+            int quantity = menu.getValue();
             int menuPrice = getMenuPrice(menuName);
 
             calculatedTotalPrice += (menuPrice * quantity);
@@ -115,6 +144,7 @@ public class MenuOrder {
                 break;
             }
         }
+
         return price;
     }
 
@@ -135,28 +165,6 @@ public class MenuOrder {
         return orderedItems;
     }
 
-    private void checkBlankOrder(String foods) {
-        if (foods.contains(" ")) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void checkFormat(String foods) {
-        String[] menuItems = foods.split(",");
-
-        boolean isValidOrder = Arrays.stream(menuItems)
-                .allMatch(item -> {
-                    String[] parts = item.split("-");
-                    if (parts.length == 2) {
-                        String menuName = parts[0].trim();
-                        String quantity = parts[1].trim();
-                        return menuName.matches("[\\w가-힣]+") && quantity.matches("[1-9]|1[0-9]|20");
-                    }
-                    return false;
-                });
-
-        checkResultFormat(isValidOrder);
-    }
 
     private void checkResultFormat(boolean isValidOrder) {
         if (!isValidOrder) {
@@ -164,16 +172,6 @@ public class MenuOrder {
         }
     }
 
-    private void checkNoMenuInFoods(String foods) {
-        String[] menuItems = foods.split(",");
-        if (menuItems.length == 1) {
-            orderMenus(menuItems[0]);
-        } else {
-            Arrays.stream(menuItems)
-                    .map(String::trim)
-                    .forEach(this::orderMenus);
-        }
-    }
 
     private void orderMenus(String menuItem) {
         String[] menuAndQuantity = menuItem.split("-");
@@ -241,11 +239,15 @@ public class MenuOrder {
     }
 
 
-    public void checkTotalOrderLimit() {
-        int totalQuantity = orderedItems.values().stream().mapToInt(Integer::intValue).sum();
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 
-        if (totalQuantity > 20) {
-            throw new IllegalArgumentException();
-        }
+    public int getDessertCount() {
+        return dessertCount;
+    }
+
+    public int getMainCount() {
+        return mainCount;
     }
 }
