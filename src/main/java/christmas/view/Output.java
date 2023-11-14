@@ -4,6 +4,7 @@ import christmas.domain.Day;
 import christmas.domain.MenuOrder;
 
 public class Output {
+    private static final int ZERO = 0;
     private static final String EVENT_PLANNER = "안녕하세요! 우테코 식당 %d월 이벤트 플래너입니다.\n";
     private static final int MONTH = 12;
     private static final String RESERVATION_DAY = "%d월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
@@ -12,9 +13,15 @@ public class Output {
     private static final String MENU = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
     private static final String INVALID_MENU_ORDER = " 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final String EVENT_PREVIEW = "%d월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String CHRISTMAS_DISCOUNT = "크리스마스 디데이 할인: -%d";
+    private static final String SPECIAL_DISCOUNT = "특별 할인: -%d";
+    private static final String GIFT_EVENT = "증정 이벤트: -";
+    private static final String TOTAL_DISCOUNT = "<총혜택 금액>";
+    private static final String AFTER_DISCOUNT_PRICE = "<할인 후 예상 결제 금액>";
     private static final String NONE = "없음";
-    private static final int GIFT_LIMIT = 120000;
+    public static final int GIFT_LIMIT = 120000;
     private static final String GIFT = "샴페인";
+    private static final int GIFT_PRICE = 25000;
     private static final String ONE = "1";
     private static final String PER = "개";
     private static final String UNIT = "원";
@@ -22,48 +29,90 @@ public class Output {
     private static final String BEFORE_DISCOUNT_PRICE = "<할인 전 총주문 금액>";
     private static final String LINE = "\n";
 
-    public void EventPlanner() {
+    public void showEventPlanner() {
         String eventMessage = String.format(EVENT_PLANNER, MONTH);
         String reservationMessage = String.format(RESERVATION_DAY, MONTH);
         System.out.println(eventMessage + reservationMessage);
     }
 
-    public void DayError() {
+    public void showDayError() {
         System.out.println(ERROR_FORMAT + INVALID_DAY_FORMAT);
     }
 
-    public void Menu() {
+    public void showMenu() {
         System.out.println(MENU);
     }
 
-    public void MenuError() {
+    public void showMenuError() {
         System.out.println(ERROR_FORMAT + INVALID_MENU_ORDER);
     }
 
-    public void MenuOrder(MenuOrder menu) {
+    public void showMenuOrder(MenuOrder menu) {
         System.out.println(COMPLETED_MENU_ORDER);
         menu.getOrderedItems().forEach((key, value) -> System.out.println(key + " " + value + PER));
         System.out.print(LINE);
     }
 
-    public void BeforeDiscountPrice(MenuOrder menu) {
+    public void showBeforeDiscountPrice(MenuOrder menu) {
         System.out.println(BEFORE_DISCOUNT_PRICE);
         System.out.println(String.format("%,d", menu.getTotalPrice()) + UNIT);
         System.out.print(LINE);
     }
 
-    public void EventPreview(Day day) {
-        System.out.printf(EVENT_PREVIEW ,MONTH, day.getDate());
+    public void showEventPreview(Day day) {
+        System.out.printf(EVENT_PREVIEW, MONTH, day.getDate());
         System.out.print(LINE);
     }
 
-    public void Gift(MenuOrder menu) {
-        if(menu.getTotalPrice() >= GIFT_LIMIT ){
+    public void showGift(MenuOrder menu) {
+        if (menu.getTotalPrice() >= GIFT_LIMIT) {
             System.out.println(GIFT + ONE + PER);
-        }
-        else if(menu.getTotalPrice() < GIFT_LIMIT){
+        } else if (menu.getTotalPrice() < GIFT_LIMIT) {
             System.out.println(NONE);
         }
         System.out.print(LINE);
+    }
+
+    public void showChristmasDiscount(int christmasDiscount) {
+        System.out.print(CHRISTMAS_DISCOUNT);
+        System.out.printf(String.format("%,d", christmasDiscount) + UNIT);
+    }
+
+    public void showNone() {
+        System.out.println(NONE);
+    }
+
+    public void showSpecialDiscount(int specialDiscountUnit) {
+        System.out.print(SPECIAL_DISCOUNT);
+        System.out.printf(String.format("%,d", specialDiscountUnit) + UNIT);
+    }
+
+    public void showGiftEvent() {
+        System.out.print(GIFT_EVENT);
+        System.out.printf(String.format("%,d", GIFT_PRICE) + UNIT);
+        System.out.println(LINE);
+    }
+
+    public void showTotalDiscount(int totalDiscount) {
+        System.out.println(TOTAL_DISCOUNT);
+
+        if (totalDiscount == ZERO) {
+            System.out.print(ZERO + UNIT);
+        }
+        if (totalDiscount != ZERO) {
+            System.out.printf("-" + String.format("%,d", totalDiscount) + UNIT);
+        }
+        System.out.println(LINE);
+    }
+
+    public void showAfterDiscountPrice(MenuOrder menu, int discountPrice) {
+        System.out.println(AFTER_DISCOUNT_PRICE);
+
+        if(discountPrice == ZERO){
+            System.out.println(ZERO + UNIT);
+        }
+        if(discountPrice != ZERO) {
+            System.out.println(String.format("%,d", menu.getTotalPrice() - discountPrice) + UNIT);
+        }
     }
 }

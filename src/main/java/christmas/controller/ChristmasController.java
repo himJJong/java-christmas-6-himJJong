@@ -1,6 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.Day;
+import christmas.domain.Discount;
 import christmas.domain.MenuOrder;
 import christmas.view.Input;
 import christmas.view.Output;
@@ -8,34 +9,34 @@ import christmas.view.Output;
 public class ChristmasController {
     private final Input input = new Input();
     private final Output output = new Output();
+    private final Discount discount = new Discount();
 
     public void run() {
-        output.EventPlanner();
+        output.showEventPlanner();
         Day day = reserveDay();
-        output.Menu();
+        output.showMenu();
         MenuOrder menu = orderMenu();
-        output.EventPreview(day);
+        output.showEventPreview(day);
         result(menu, day);
     }
 
     private void result(MenuOrder menu, Day day) {
-        output.MenuOrder(menu);
-        output.BeforeDiscountPrice(menu);
-        output.Gift(menu);
-        /*
-        output.BenefitRecord(menu);
-        output.TotalBenefit(menu);
-        output.AfterDiscountPrice(menu);
-        output.Badge(menu);
-         */
+        output.showMenuOrder(menu);
+        output.showBeforeDiscountPrice(menu);
+        output.showGift(menu);
+        discount.check(menu, day);
 
+        /*
+
+        output.Badge(menu);
+        */
     }
 
     private MenuOrder orderMenu() {
         try {
             return new MenuOrder(input.read());
         } catch (IllegalArgumentException e) {
-            output.MenuError();
+            output.showMenuError();
             return orderMenu();
         }
     }
@@ -44,7 +45,7 @@ public class ChristmasController {
         try {
             return new Day(toInt(input.read()));
         } catch (IllegalArgumentException e) {
-            output.DayError();
+            output.showDayError();
             return reserveDay();
         }
     }

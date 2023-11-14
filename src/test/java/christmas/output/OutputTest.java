@@ -24,7 +24,7 @@ class OutputTest {
 
         // When
         Output output = new Output();
-        output.MenuOrder(menuOrder);
+        output.showMenuOrder(menuOrder);
 
         // Then
         String expectedOutput = "<주문 메뉴>\n" +
