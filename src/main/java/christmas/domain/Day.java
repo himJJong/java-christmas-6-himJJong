@@ -1,26 +1,25 @@
 package christmas.domain;
 
-public class Day {
-    private final int date;
-    private static final int FIRST_DATE = 1;
-    private static final int LAST_DATE = 31;
+import java.util.stream.IntStream;
 
-    public Day(int date) {
+public record Day(int date) {
+    public Day {
         validateDay(date);
-        this.date = date;
     }
 
-    private void validateDay(int number) {
-        if (checkInvalidArea(number)) {
-            throw new IllegalArgumentException();
+    private void validateDay(int date) {
+        if (checkInvalidArea(date)) {
+            throw new IllegalArgumentException("Invalid date.");
         }
     }
 
-    public int getDate() {
-        return date;
+    private boolean checkInvalidArea(int number) {
+        return IntStream
+                .rangeClosed(numberToInt(Number.FIRST_DATE), numberToInt(Number.LAST_DATE))
+                .noneMatch(i -> i == number);
     }
 
-    private boolean checkInvalidArea(int number) {
-        return number < FIRST_DATE || number > LAST_DATE;
+    private int numberToInt(Number date) {
+        return date.getValue();
     }
 }

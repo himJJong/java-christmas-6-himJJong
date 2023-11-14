@@ -238,7 +238,6 @@ public class MenuOrder {
         }
     }
 
-
     public int getTotalPrice() {
         return totalPrice;
     }

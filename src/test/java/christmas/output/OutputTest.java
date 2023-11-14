@@ -27,7 +27,7 @@ class OutputTest {
         output.showMenuOrder(menuOrder);
 
         // Then
-        String expectedOutput = "<주문 메뉴>\n" +
+        String expectedOutput = "\n<주문 메뉴>\n" +
                 "아이스크림 2개\n" +
                 "초코케이크 2개\n" +
                 "\n";

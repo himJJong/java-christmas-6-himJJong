@@ -2,6 +2,7 @@ package christmas.view;
 
 import christmas.domain.Day;
 import christmas.domain.MenuOrder;
+import christmas.domain.Number;
 
 public class Output {
     private static final String EVENT_PLANNER_SENTENCE = "안녕하세요! 우테코 식당 %d월 이벤트 플래너입니다.\n";
@@ -28,18 +29,14 @@ public class Output {
     private static final String TREE = "트리";
     private static final String SANTA = "산타";
     private static final String GIFT = "샴페인";
-    public static final int GIFT_LIMIT = 120000;
-    public static final int GIFT_PRICE = 25000;
-    public static final int ZERO = 0;
     private static final String ONE = "1";
-    public static final int MONTH = 12;
     private static final String PER = "개";
     public static final String WON = "원";
     public static final String SKIP_LINE = "\n";
 
     public void showEventPlanner() {
-        String eventMessage = String.format(EVENT_PLANNER_SENTENCE, MONTH);
-        String reservationMessage = String.format(RESERVATION_DAY_SENTENCE, MONTH);
+        String eventMessage = String.format(EVENT_PLANNER_SENTENCE, numberToInt(Number.MONTH));
+        String reservationMessage = String.format(RESERVATION_DAY_SENTENCE, numberToInt(Number.MONTH));
         System.out.println(eventMessage + reservationMessage);
     }
 
@@ -56,6 +53,7 @@ public class Output {
     }
 
     public void showMenuOrder(MenuOrder menu) {
+        System.out.println();
         System.out.println(COMPLETED_MENU_ORDER);
         menu.getOrderedItems().forEach((key, value) -> System.out.println(key + " " + value + PER));
         System.out.print(SKIP_LINE);
@@ -68,7 +66,7 @@ public class Output {
     }
 
     public void showEventPreview(Day day) {
-        System.out.printf(EVENT_PREVIEW_SENTENCE, MONTH, day.getDate());
+        System.out.printf(EVENT_PREVIEW_SENTENCE, numberToInt(Number.MONTH), day.date());
         System.out.print(SKIP_LINE);
     }
 
@@ -79,7 +77,7 @@ public class Output {
     }
 
     public void showNoExist() {
-        System.out.println(NONE);
+        System.out.print(NONE);
     }
 
     public void showSpecialDiscount(int specialDiscountUnit) {
@@ -89,8 +87,8 @@ public class Output {
 
     public void showGiftEvent() {
         System.out.print(GIFT_EVENT_SENTENCE);
-        System.out.printf(String.format("%,d", GIFT_PRICE) + WON);
-        System.out.print(SKIP_LINE);
+        System.out.printf(String.format("%,d", numberToInt(Number.GIFT_PRICE)) + WON);
+        System.out.println(SKIP_LINE);
     }
 
     public void showTotalDiscountPrice() {
@@ -98,8 +96,7 @@ public class Output {
     }
 
     public void showTotalDiscountPriceWon(int discountPrice) {
-        System.out.println("-" + String.format("%,d", discountPrice) + WON);
-        System.out.println(SKIP_LINE);
+        System.out.println("-" + String.format("%,d", discountPrice) + WON + SKIP_LINE);
     }
 
     public void showAfterDiscountPrice(MenuOrder menu, int discountPrice) {
@@ -128,7 +125,7 @@ public class Output {
     }
 
     public void showBadgeSanta() {
-        System.out.println(SANTA);
+        System.out.print(SANTA);
     }
 
     public void showBadgeStar() {
@@ -137,5 +134,9 @@ public class Output {
 
     public void showBadgeTree() {
         System.out.println(TREE);
+    }
+
+    private int numberToInt(Number date) {
+        return date.getValue();
     }
 }

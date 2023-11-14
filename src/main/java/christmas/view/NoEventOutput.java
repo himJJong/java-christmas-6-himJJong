@@ -1,6 +1,7 @@
 package christmas.view;
 
 import christmas.domain.MenuOrder;
+import christmas.domain.Number;
 
 public class NoEventOutput {
     private final Output output = new Output();
@@ -14,7 +15,7 @@ public class NoEventOutput {
     }
 
     private void noneEventBadge() {
-        System.out.printf(String.format(output.EVENT_BADGE, output.MONTH) + output.SKIP_LINE);
+        System.out.printf(String.format(output.EVENT_BADGE, numberToInt(Number.MONTH)) + output.SKIP_LINE);
         output.showNoExist();
     }
 
@@ -25,7 +26,7 @@ public class NoEventOutput {
 
     private void noneDiscountPrice() {
         output.showTotalDiscountPrice();
-        System.out.println(output.ZERO + output.WON + output.SKIP_LINE);
+        System.out.println(numberToInt(Number.ZERO) + output.WON + output.SKIP_LINE);
     }
 
     private void noneDiscount() {
@@ -38,5 +39,9 @@ public class NoEventOutput {
         System.out.println(output.GIFT_MENU_SENTENCE);
         output.showNoExist();
         System.out.print(output.SKIP_LINE);
+    }
+
+    private int numberToInt(Number date) {
+        return date.getValue();
     }
 }
