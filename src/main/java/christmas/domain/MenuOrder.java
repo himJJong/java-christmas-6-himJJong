@@ -42,16 +42,70 @@ public class MenuOrder {
     }
 
     private int getMenuPrice(String menuName) {
-        return MenuBoard.valueOf(menuName).getPrice();
+        int price = findAppetizer(menuName);
+
+        if (price == 0) {
+            price = findMainCourse(menuName);
+        }
+        if (price == 0) {
+            price = findDessert(menuName);
+        }
+        if (price == 0) {
+            price = findBeverage(menuName);
+        }
+
+        return price;
     }
 
-    private void checkMenuValidity(String menuName) {
-        boolean menuFound = Arrays.stream(MenuBoard.values())
-                .anyMatch(menu -> menu.name().equalsIgnoreCase(menuName));
 
-        if (!menuFound) {
-            throw new IllegalArgumentException();
+    private int findBeverage(String menuName) {
+        int price = 0;
+
+        for (MenuBoard.Beverage beverage : MenuBoard.Beverage.values()) {
+            if (beverage.name().equalsIgnoreCase(menuName)) {
+                price = beverage.getPrice();
+                break;
+            }
         }
+
+        return price;
+    }
+
+    private int findDessert(String menuName) {
+        int price = 0;
+        for (MenuBoard.Dessert dessert : MenuBoard.Dessert.values()) {
+            if (dessert.name().equalsIgnoreCase(menuName)) {
+                price = dessert.getPrice();
+                break;
+            }
+        }
+
+        return price;
+    }
+
+    private int findMainCourse(String menuName) {
+        int price = 0;
+
+        for (MenuBoard.MainCourse mainCourse : MenuBoard.MainCourse.values()) {
+            if (mainCourse.name().equalsIgnoreCase(menuName)) {
+                price = mainCourse.getPrice();
+                break;
+            }
+        }
+        return price;
+    }
+
+    private int findAppetizer(String menuName) {
+        int price = 0;
+
+        for (MenuBoard.Appetizer appetizer : MenuBoard.Appetizer.values()) {
+            if (appetizer.name().equalsIgnoreCase(menuName)) {
+                price = appetizer.getPrice();
+                break;
+            }
+        }
+
+        return price;
     }
 
     public Map<String, Integer> getOrderedItems() {
@@ -111,6 +165,53 @@ public class MenuOrder {
     private void checkDuplicateMenu(String menuName) {
         if (orderedItems.containsKey(menuName)) {
             throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean isValidAppetizer(String menuName) {
+        try {
+            MenuBoard.Appetizer.valueOf(menuName);
+            return true;
+        } catch (IllegalArgumentException ignored) {
+            return false;
+        }
+    }
+
+    private boolean isValidMainCourse(String menuName) {
+        try {
+            MenuBoard.MainCourse.valueOf(menuName);
+            return true;
+        } catch (IllegalArgumentException ignored) {
+            return false;
+        }
+    }
+
+    private boolean isValidDessert(String menuName) {
+        try {
+            MenuBoard.Dessert.valueOf(menuName);
+            return true;
+        } catch (IllegalArgumentException ignored) {
+            return false;
+        }
+    }
+
+    private boolean isValidBeverage(String menuName) {
+        try {
+            MenuBoard.Beverage.valueOf(menuName);
+            return true;
+        } catch (IllegalArgumentException ignored) {
+            return false;
+        }
+    }
+
+    private void checkMenuValidity(String menuName) {
+        boolean isValidMenu = isValidAppetizer(menuName) ||
+                isValidMainCourse(menuName) ||
+                isValidDessert(menuName) ||
+                isValidBeverage(menuName);
+
+        if (!isValidMenu) {
+            throw new IllegalArgumentException("Invalid menu");
         }
     }
 
