@@ -1,9 +1,6 @@
 package christmas.domain;
 
-import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,5 +77,16 @@ public class MenuOrderTest {
         String orderFifteenLimit = "아이스크림-5,초코케이크-10,제로콜라-4";
         MenuOrder menuOrder = new MenuOrder(orderFifteenLimit);
         assertDoesNotThrow(menuOrder::checkTotalOrderLimit);
+    }
+
+    @Test
+    @DisplayName("주문시 성공적인 계산 통과 테스트")
+    public void testCalculatedPrice() {
+        String orderMenu = "아이스크림-5,초코케이크-10,제로콜라-4";
+        MenuOrder menuOrder = new MenuOrder(orderMenu);
+
+        int totalPrice = 187000;
+
+        assertEquals(totalPrice, menuOrder.getTotalPrice());
     }
 }

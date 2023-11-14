@@ -4,10 +4,9 @@ import christmas.domain.MenuOrder;
 import christmas.view.Output;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,12 +24,13 @@ class OutputTest {
 
         // When
         Output output = new Output();
-        output.Order(menuOrder);
+        output.MenuOrder(menuOrder);
 
         // Then
         String expectedOutput = "<주문 메뉴>\n" +
                 "아이스크림 2개\n" +
-                "초코케이크 2개\n";
+                "초코케이크 2개\n" +
+                "\n";
         assertEquals(expectedOutput, outputStreamCaptor.toString());
     }
 }

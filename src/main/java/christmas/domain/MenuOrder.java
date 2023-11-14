@@ -6,17 +6,52 @@ import java.util.Map;
 
 public class MenuOrder {
     private final Map<String, Integer> orderedItems;
+    private int totalPrice = 0;
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 
     public MenuOrder(String foods) {
         this.orderedItems = new HashMap<>();
-        validate(foods);
+        this.totalPrice = validate(foods);
     }
 
-    private void validate(String foods) {
+    private int validate(String foods) {
         checkBlankOrder(foods);
         checkFormat(foods);
         checkNoMenuInFoods(foods);
         checkTotalOrderLimit();
+
+        return calculateTotalPrice();
+    }
+
+    private int calculateTotalPrice() {
+        int calculatedTotalPrice = 0;
+
+        for (Map.Entry<String, Integer> entry : orderedItems.entrySet()) {
+            String menuName = entry.getKey();
+
+            int quantity = entry.getValue();
+            int menuPrice = getMenuPrice(menuName);
+
+            calculatedTotalPrice += (menuPrice * quantity);
+        }
+
+        return calculatedTotalPrice;
+    }
+
+    private int getMenuPrice(String menuName) {
+        return MenuBoard.valueOf(menuName).getPrice();
+    }
+
+    private void checkMenuValidity(String menuName) {
+        boolean menuFound = Arrays.stream(MenuBoard.values())
+                .anyMatch(menu -> menu.name().equalsIgnoreCase(menuName));
+
+        if (!menuFound) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public Map<String, Integer> getOrderedItems() {
@@ -79,25 +114,6 @@ public class MenuOrder {
         }
     }
 
-    private void checkMenuValidity(String menuName) {
-        boolean menuFound = checkMenuCategory(MenuBoard.Appetizer.values(), menuName)
-                || checkMenuCategory(MenuBoard.MainDish.values(), menuName)
-                || checkMenuCategory(MenuBoard.Dessert.values(), menuName)
-                || checkMenuCategory(MenuBoard.Beverage.values(), menuName);
-
-        if (!menuFound) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private boolean checkMenuCategory(Enum[] menuCategory, String menuName) {
-        for (Enum menu : menuCategory) {
-            if (menu.name().equals(menuName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void checkTotalOrderLimit() {
         int totalQuantity = orderedItems.values().stream().mapToInt(Integer::intValue).sum();
